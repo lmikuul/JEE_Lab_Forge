@@ -1,0 +1,24 @@
+.character__grid {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 350px;
+}
+
+.character__avatar {
+    grid-column: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.character__role {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.character__birthdate {
+    grid-column: 1;
+    grid-row: 2;
+}
+.user_login {
+    height: auto;
+    resize: none;
+}

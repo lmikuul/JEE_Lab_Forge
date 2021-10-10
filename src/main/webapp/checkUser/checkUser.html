@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Forge project"/>
+    <meta name="keywords" content="Forge"/>
+    <meta name="author" content="Milena Lewandowska"/>
+    <title>Lab1_JEE</title>
+    <link rel="stylesheet" href="../styles.css"/>
+    <script src="../script.js" defer="defer"></script>
+    <script src="checkUser.js" defer="defer"></script>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>Forge</h1>
+        <h5>Check user</h5>
+    </header>
+
+    <nav class="navigation-bar">
+        <ul>
+            <li><a href="../index.html">Main</a></li>
+            <li><a href="../users/users.html">Users</a></li>
+            <li><a href="checkUser.html">Check user</a></li>
+        </ul>
+    </nav>
+
+    <section class="main-section">
+        <div>
+            <label for="userLogin">Write login: </label><textarea class="user_login" id="userLogin"></textarea>
+            <button class="ui-control ui-button" id="checkUserBt">Check</button>
+        </div>
+        <article id="checkUserPanel" class="text--justified" style="display: none">
+            <header><h2>User: <span id="login">User's login</span></h2></header>
+            <div class="character__grid">
+                <div class="character__role"><h4>Role</h4> <span id="role">NULL</span></div>
+                <div class="character__birthdate"><h4>Birthdate</h4> <span id="birthDate">NONE</span></div>
+                <div class="character__avatar"><h4>Avatar</h4><img id="avatarView" src="#"/></div>
+            </div>
+
+            <article class="text--justified">
+                <header><h5>Edit user's avatar</h5></header>
+                <form class="character__form" id="avatarForm">
+                    <label for="avatarView">Avatar:</label>
+                    <input class="ui-control ui-button" id="avatar" name="avatar" type="file"/>
+                    <input class="ui-control ui-button" id="uploadAvatarBt" type="submit" value="Upload"/>
+                </form>
+                <button class="ui-control ui-button" id="deleteAvatarBt">Delete</button>
+            </article>
+        </article>
+
+        <div id="test"></div>
+    </section>
+
+    <footer class="footer">
+        <p>Author: Milena Lewandowska 175840</p>
+    </footer>
+</div>
+</body>
+</html>

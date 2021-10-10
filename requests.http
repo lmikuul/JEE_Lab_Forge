@@ -1,0 +1,30 @@
+GET http://localhost:9080/forge/api/users
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/forge/api/users/diana
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/forge/api/avatars/cyryl
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+PUT http://localhost:9080/forge/api/avatars/diana
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="diana (2).jpg'
+
+< E:\JEE\avatars\diana (2).jpg
+--boundary--
+
+###
+
+DELETE http://localhost:9080/forge/api/avatars/cyryl
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
