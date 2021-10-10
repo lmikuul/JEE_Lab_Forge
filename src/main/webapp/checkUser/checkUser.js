@@ -35,6 +35,10 @@ function loadUser(event) {
                     if (input) {
                         input.innerHTML = value;
                     }
+                    else {
+                        document.getElementById('checkUserPanel').style.display = 'none';
+                        break;
+                    }
                 }
                 document.getElementById('avatarView').src = getContextRoot() + '/api/avatars/' + login;
 
