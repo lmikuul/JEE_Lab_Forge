@@ -1,6 +1,11 @@
 package pl.edu.pg.eti.kask.forge.configuration;
 
 import lombok.SneakyThrows;
+import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
+import pl.edu.pg.eti.kask.forge.equipment.entity.EquipmentType;
+import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
+import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
+import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
 import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
@@ -10,6 +15,7 @@ import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.servlet.ServletContextListener;
+import javax.validation.constraints.Null;
 import java.io.InputStream;
 import java.time.LocalDate;
 
@@ -26,10 +32,14 @@ public class InitializedData implements ServletContextListener {
      * Service for users operations.
      */
     private final UserService userService;
+    private final EquipmentService equipmentService;
+    private final ErrandService errandService;
 
     @Inject
-    public InitializedData(UserService userService) {
+    public InitializedData(UserService userService, EquipmentService equipmentService, ErrandService errandService) {
         this.userService = userService;
+        this.equipmentService = equipmentService;
+        this.errandService = errandService;
     }
 
     public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
@@ -92,7 +102,76 @@ public class InitializedData implements ServletContextListener {
         userService.create(cyryl);
         userService.create(diana);
         userService.create(elvin);
+
+        Equipment sword = Equipment.builder()
+                .id(1)
+                .name("Sword")
+                .type(EquipmentType.MELEE_WEAPON)
+                .mainMaterial("Steel")
+                .weight(20.5)
+                .build();
+
+        Equipment bow = Equipment.builder()
+                .id(2)
+                .name("Bow")
+                .type(EquipmentType.RANGED_WEAPON)
+                .mainMaterial("Wood")
+                .weight(10.9)
+                .build();
+
+        Equipment shield = Equipment.builder()
+                .id(3)
+                .name("Shield")
+                .type(EquipmentType.SHIELD)
+                .mainMaterial("Steel")
+                .weight(40)
+                .build();
+
+        Equipment helmet = Equipment.builder()
+                .id(4)
+                .name("Helmet")
+                .type(EquipmentType.ARMOR)
+                .mainMaterial("Leather")
+                .weight(7.8)
+                .build();
+
+        equipmentService.create(sword);
+        equipmentService.create(bow);
+        equipmentService.create(shield);
+        equipmentService.create(helmet);
+
+        Errand errand1 = Errand.builder()
+                .id(1)
+                .user(diana)
+                .equipment(sword)
+                .price(100.50)
+                .startDay(LocalDate.now())
+                .details("It must be shiny")
+                .build();
+
+        Errand errand2 = Errand.builder()
+                .id(2)
+                .user(diana)
+                .equipment(shield)
+                .price(289.50)
+                .startDay(LocalDate.now())
+                .details("None")
+                .build();
+
+        Errand errand3 = Errand.builder()
+                .id(3)
+                .user(bob)
+                .equipment(sword)
+                .price(289.50)
+                .startDay(LocalDate.now())
+                .details("With my name on it.")
+                .build();
+
+        errandService.create(errand1);
+        errandService.create(errand2);
+        errandService.create(errand3);
     }
+
 
     /**
      * @param name name of the desired resource

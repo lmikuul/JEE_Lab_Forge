@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ import java.util.Optional;
  */
 @WebServlet(
         urlPatterns = {AvatarServlet.Paths.AVATAR + "/*"},
-        initParams = {@WebInitParam(name = "avatarsPath", value = "E:/JEE/avatars")}
+        initParams = {@WebInitParam(name = "avatarsPath", value = "E:\\JEE\\avatars")}
 )
 @MultipartConfig(maxFileSize = 200 * 1024)
 public class AvatarServlet extends HttpServlet {
@@ -132,11 +132,9 @@ public class AvatarServlet extends HttpServlet {
         Optional<User> user = service.find(login);
 
         if (user.isPresent()) {
-            Path path = java.nio.file.Paths.get(getInitParameter("avatarsPath")+"/"+login+".jpg");
+            String path = getInitParameter("avatarsPath")+"/"+login+".jpg";
 
-            if(Files.exists(path)){
-                Files.delete(path);
-            }
+            service.deleteAvatar(path);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -156,11 +154,11 @@ public class AvatarServlet extends HttpServlet {
         Optional<User> user = service.find(login);
 
         if(user.isPresent()){
-            Part avatar = request.getPart(Parameters.AVATAR);
+            InputStream avatar = request.getPart(Parameters.AVATAR).getInputStream();
+            String path = getInitParameter("avatarsPath")+"/"+login+".jpg";
 
-            Path targetFile = java.nio.file.Paths.get(getInitParameter("avatarsPath")+"/"+login+".jpg");
             try {
-                Files.copy(avatar.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+                service.uploadAvatar(avatar, path);
             }
             catch (IOException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -182,14 +180,16 @@ public class AvatarServlet extends HttpServlet {
         Optional<User> user = service.find(login);
 
         if (user.isPresent()) {
-            Path path = java.nio.file.Paths.get(getInitParameter("avatarsPath")+"/"+login+".jpg");
+            String path = getInitParameter("avatarsPath")+"/"+login+".jpg";
+            byte[] file = service.findAvatar(path);
 
-            if(Files.exists(path)){
-                byte[] file = Files.readAllBytes(path);
-
+            if(file != null){
                 response.addHeader(HttpHeaders.CONTENT_TYPE, MimeTypes.IMAGE_JPG);
                 response.setContentLength(file.length);
                 response.getOutputStream().write(file);
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

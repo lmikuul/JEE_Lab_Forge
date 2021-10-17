@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <ui:define name="content">
+        <article class="text--justified">
+            <header><h2>All users</h2></header>
+            <h:dataTable value="#{userList.users.modelUsers}" var="equipment" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">Login</f:facet>
+                    <h:outputText value="#{equipment.login}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Role</f:facet>
+                    <h:outputText value="#{equipment.role}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">BirthDate</f:facet>
+                    <h:outputText value="#{equipment.birthDate}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">View</f:facet>
+                    <h:link outcome="/user/viewUser.xhtml" value="view">
+                        <f:param name="login" value="#{equipment.login}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">edit</f:facet>
+                    <h:link outcome="/user/editUser.xhtml" value="edit">
+                        <f:param name="login" value="#{equipment.login}"/>
+                    </h:link>
+                </h:column>
+            </h:dataTable>
+        </article>
+    </ui:define>
+
+</ui:composition>

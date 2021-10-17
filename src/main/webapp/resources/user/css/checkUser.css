@@ -4,9 +4,9 @@
 }
 
 .character__avatar {
-    grid-column: 5;
+    grid-column: 4;
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 7;
 }
 
 .character__role {

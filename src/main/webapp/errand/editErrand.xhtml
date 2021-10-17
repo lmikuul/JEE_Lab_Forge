@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{errandEdit.id}" required="true"/>
+        <f:viewAction action="#{errandEdit.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="errand" name="css/editErrand.css"/><!-- Automatically relocated to head. -->
+
+        <article class="text-justified">
+            <header><h1>Edit errand</h1></header>
+            <h:form class="errand__form">
+                <h:outputLabel for="price" value="Price: "/>
+                <h:inputText class="ui-control ui-input" id="price" value="#{errandEdit.errand.price}"/>
+                <h:outputLabel for="details" value="Details: "/>
+                <h:inputText class="ui-control ui-input" id="details" value="#{errandEdit.errand.details}"/>
+
+                <h:outputLabel for="startDate" value="Start date: "/>
+                <h:inputText class="ui-control ui-input" id="startDate" value="#{errandEdit.errand.startDay}">
+                    <!--<f:convertDateTime pattern="yyyy-MM-dd"/>-->
+                </h:inputText>
+                <h:outputLabel for="startDate" value="End date: "/>
+                <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandEdit.errand.doneDay}">
+                    <!--<f:convertDateTime pattern="yyyy-MM-dd"/>-->
+                </h:inputText>
+
+                <h:outputLabel for="equipment" value="Equipment:"/>
+                <h:selectOneRadio id="equipment" value="#{errandEdit.errand.equipment}"
+                                  layout="pageDirection">
+                    <f:selectItems var="equipment" value="#{errandEdit.errand.equipment}" itemValue="#{equipment}"
+                                   itemLabel="#{equipment.name}" itemLabelEscaped="false"/>
+                </h:selectOneRadio>
+
+                <h:selectOneListbox value="#{errandEdit.errand.id}">
+                    <f:selectItems itemLabel="#{errandEdit.errand.id}" itemValue="#{errandEdit.errand.id}" />
+                </h:selectOneListbox>
+
+                <div>
+                    <h:commandButton class="ui-control ui-button" value="Update"
+                                     action="#{userEdit.saveAction()}"/>
+                </div>
+            </h:form>
+        </article>
+    </ui:define>
+
+</ui:composition>

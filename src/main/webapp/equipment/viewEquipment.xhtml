@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{equipmentView.id}" required="true"/>
+        <f:viewParam name="id" value="#{errandListByEquipment.equipmentId}" required="true"/>
+        <f:viewAction action="#{equipmentView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="equipment" name="css/viewEquipment.css"/><!-- Automatically relocated to head. -->
+        <article id="viewEquipmentPanel" class="text--justified">
+            <div class="equipment__grid">
+                <header class="equipment__header"><h2>Equipment Details</h2></header>
+                <div class="equipment__name">
+                    <b>Name: </b>
+                    <h:outputText value="#{equipmentView.equipment.name}"/>
+                </div>
+                <div class="equipment__type">
+                    <b>Type: </b>
+                    <h:outputText value="#{equipmentView.equipment.type}"/>
+                </div>
+                <div class="equipment__mainMaterial">
+                    <b>Material: </b>
+                    <h:outputText value="#{equipmentView.equipment.mainMaterial}"/>
+                </div>
+                <div class="equipment__weight">
+                    <b>Weight: </b>
+                    <h:outputText value="#{equipmentView.equipment.weight}"/>
+                </div>
+            </div>
+
+            <div class="equipment__errands">
+                <header class="equipment__header"><h2>Equipment Errands</h2></header>
+                <h:dataTable value="#{errandListByEquipment.errands.modelErrands}" var="errand" styleClass="data-table">
+                    <h:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{errand.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">User</f:facet>
+                        <h:outputText value="#{errand.userLogin}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Start day</f:facet>
+                        <h:outputText value="#{errand.startDay}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">View</f:facet>
+                        <h:link outcome="/errand/viewErrand.xhtml" value="View">
+                            <f:param name="id" value="#{errand.id}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Edit</f:facet>
+                        <h:link outcome="/errand/editErrand.xhtml" value="Edit">
+                            <f:param name="id" value="#{errand.id}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Delete</f:facet>
+                        <h:form>
+                            <h:commandButton styleClass="ui-button ui-control" value="Delete"
+                                             action="#{errandListByEquipment.deleteAction(errand)}"/>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+                <div>
+                    <h:link outcome="/errand/createErrand.xhtml" value="Create new errand"/>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+
+</ui:composition>

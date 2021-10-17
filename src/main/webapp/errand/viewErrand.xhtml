@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{errandView.id}" required="true"/>
+        <f:viewAction action="#{errandView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="errand" name="css/viewErrand.css"/><!-- Automatically relocated to head. -->
+        <article id="viewErrandPanel" class="text--justified">
+            <header><h2>Errand details</h2></header>
+            <div class="errand__grid">
+                <div class="errand">
+                    <b>Id: </b>
+                    <h:outputText value="#{errandView.errand.id}"/>
+                </div>
+                <div class="errand">
+                    <b>User: </b>
+                    <h:outputText value="#{errandView.errand.user.login}"/>
+                </div>
+                <div class="errand">
+                    <b>Equipment: </b>
+                    <h:outputText value="#{errandView.errand.equipment.name}"/>
+                </div>
+                <div class="errand">
+                    <b>Price: </b>
+                    <h:outputText value="#{errandView.errand.price}"/>
+                </div>
+                <div class="errand">
+                    <b>Start Day: </b>
+                    <h:outputText value="#{errandView.errand.startDay}"/>
+                </div>
+                <div class="errand">
+                    <b>End day: </b>
+                    <h:outputText value="#{errandView.errand.doneDay}"/>
+                </div>
+                <div class="errand">
+                    <b>Details: </b>
+                    <h:outputText value="#{errandView.errand.details}"/>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+
+</ui:composition>

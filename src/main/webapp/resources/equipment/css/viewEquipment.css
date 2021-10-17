@@ -1,0 +1,32 @@
+.equipment__grid {
+    display: grid;
+    grid-template-columns: 200px 200px 200px 350px;
+}
+
+.equipment__header{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 1;
+}
+
+.equipment__name {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.equipment__type {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.equipment__mainMaterial {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+.equipment__weight {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+

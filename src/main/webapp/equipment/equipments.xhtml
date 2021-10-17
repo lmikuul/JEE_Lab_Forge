@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <ui:define name="content">
+        <article class="text--justified">
+            <header><h2>All equipments</h2></header>
+            <h:dataTable value="#{equipmentList.equipments.modelEquipments}" var="equipment" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputText value="#{equipment.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Type</f:facet>
+                    <h:outputText value="#{equipment.type}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">View</f:facet>
+                    <h:link outcome="/equipment/viewEquipment.xhtml" value="View">
+                        <f:param name="id" value="#{equipment.id}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Delete</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="ui-button ui-control" value="Delete"
+                                         action="#{equipmentList.deleteAction(equipment)}"/>
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+        </article>
+    </ui:define>
+
+</ui:composition>

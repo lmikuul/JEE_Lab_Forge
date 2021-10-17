@@ -13,14 +13,20 @@ Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 ###
 
-PUT http://localhost:9080/forge/api/avatars/diana
+GET http://localhost:9080/forge/api/avatars/bob
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+
+PUT http://localhost:9080/forge/api/avatars/cyryl
 Content-Type: multipart/form-data; boundary=boundary
 Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 --boundary
-Content-Disposition: form-data; name="avatar"; filename="diana (2).jpg'
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg'
 
-< E:\JEE\avatars\diana (2).jpg
+< /home/student/Pulpit/175840/Lab1_JEE/src/main/resources/avatars/avatar.jpg
 --boundary--
 
 ###

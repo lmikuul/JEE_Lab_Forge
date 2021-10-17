@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="login" value="#{userEdit.login}" required="true"/>
+        <f:viewAction action="#{userEdit.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="user" name="css/editUser.css"/><!-- Automatically relocated to head. -->
+
+            <article class="text-justified">
+                <header><h1><h:outputLabel value="#{userEdit.login}"/></h1></header>
+                <!--
+                <header><h2>Edit user info</h2></header>
+                <h:form class="character__form">
+                    <h:outputLabel for="role" value="Role:"/>
+                    <h:inputText class="ui-control ui-input" id="role" value="#{userEdit.user.role}"/>
+                    <h:outputLabel for="birthDate" value="BirthDate:"/>
+                    <h:inputText class="ui-control ui-input" id="birthDate" value="#{userEdit.user.birthDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:inputText>
+                    <h:commandButton class="ui-control ui-button" value="Update"
+                                     action="#{userEdit.saveAction()}"/>
+                </h:form>
+                -->
+            </article>
+            <article class="text--justified">
+                <header><h2>Edit user avatar</h2></header>
+                <h:form class="character__form" enctype="multipart/form-data">
+                    <h:outputLabel for="avatar" value="Avatar:"/>
+                    <h:inputFile class="ui-control ui-button" id="avatar" value="#{userEdit.avatar}"/>
+                    <h:commandButton class="ui-control ui-button" value="Upload" action="#{userEdit.uploadAction}"/>
+                </h:form>
+            </article>
+    </ui:define>
+
+</ui:composition>

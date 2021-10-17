@@ -6,10 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="simple-rpg" />
         <module name="Lab1_JEE" />
         <module name="simple-rpg-servlet" />
+        <module name="simple-rpg" />
+        <module name="Lab2_JEE" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Lab1_JEE" options="" />
+    </option>
   </component>
 </project>
