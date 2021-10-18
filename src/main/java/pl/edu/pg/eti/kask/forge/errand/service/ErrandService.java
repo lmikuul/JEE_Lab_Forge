@@ -78,4 +78,8 @@ public class ErrandService {
     public List<Errand> findAllForEquipment(Long equipmentId) {
         return repository.findAllByEquipment(equipmentId);
     }
+
+    public Long getNewId(){
+        return repository.getNewId();
+    }
 }

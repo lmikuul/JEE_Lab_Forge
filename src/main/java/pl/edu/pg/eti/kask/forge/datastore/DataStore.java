@@ -15,10 +15,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log
@@ -226,4 +223,12 @@ public class DataStore {
                 });
     }
 
+    public Long getNewErrandId() {
+        Errand err =  errands.stream()
+                .map(CloningUtility::clone)
+                .max(Comparator.comparing(Errand::getId))
+                .orElse(null);
+
+        return err == null ? 1 : err.getId() + 1;
+    }
 }

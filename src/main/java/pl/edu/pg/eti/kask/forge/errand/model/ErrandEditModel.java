@@ -21,10 +21,6 @@ import java.util.function.Function;
 public class ErrandEditModel {
     private long id;
     /**
-     * Errand's user
-     */
-    private EquipmentModel equipment;
-    /**
      * Errand's price
      */
     private double price;
@@ -48,7 +44,6 @@ public class ErrandEditModel {
                 .startDay(errand.getStartDay())
                 .doneDay(errand.getDoneDay())
                 .details(errand.getDetails())
-                .equipment(EquipmentModel.entityToModelMapper().apply(errand.getEquipment()))
                 .build();
     }
 

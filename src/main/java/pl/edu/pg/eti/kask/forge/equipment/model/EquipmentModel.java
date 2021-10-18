@@ -4,10 +4,12 @@ import lombok.*;
 import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.entity.EquipmentType;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
+import pl.edu.pg.eti.kask.forge.user.model.UserEditModel;
 import pl.edu.pg.eti.kask.forge.user.model.UserModel;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Getter
@@ -50,5 +52,21 @@ public class EquipmentModel {
                 .mainMaterial(equipment.getMainMaterial())
                 .weight(equipment.getWeight())
                 .build();
+    }
+
+
+    /**
+     * @return updater for convenient updating entity object using model object
+     */
+    public static BiFunction<Equipment, EquipmentModel, Equipment> modelToEntityMapper() {
+        return (equipment, request) -> {
+            equipment.setId(equipment.getId());
+            equipment.setName(equipment.getName());
+            equipment.setType(equipment.getType());
+            equipment.setWeight(equipment.getWeight());
+            equipment.setMainMaterial(equipment.getMainMaterial());
+
+            return equipment;
+        };
     }
 }

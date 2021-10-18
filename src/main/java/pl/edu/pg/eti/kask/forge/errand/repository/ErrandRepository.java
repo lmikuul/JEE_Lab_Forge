@@ -56,4 +56,7 @@ public class ErrandRepository implements Repository<Errand, Long> {
                 .collect(Collectors.toList());
     }
 
+    public Long getNewId() {
+        return store.getNewErrandId();
+    }
 }

@@ -13,6 +13,8 @@ body {
     background: #cc0e0e;
     color: #ff8800;
     font-weight: bold;
+    height: 110px;
+    padding: 5px;
 }
 
 .header h1 {
@@ -25,6 +27,15 @@ body {
     margin: 0;
     padding: 10px;
     font-style: italic;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 50px;
+}
+
+.container_child {
+    float: right;
 }
 
 .navigation-bar {

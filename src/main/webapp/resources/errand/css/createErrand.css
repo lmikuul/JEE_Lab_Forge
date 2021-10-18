@@ -1,0 +1,46 @@
+.createErrand_form {
+    display: grid;
+    grid-template-columns: 200px 200px;
+}
+
+.errand_price {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.errand_details {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.errand_startDate {
+    grid-column: 2;
+    grid-row: 1;
+}
+.errand_endDate {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.errand_equipment {
+    grid-column: 1;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.errand_user {
+    grid-column: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+.errand_save {
+    padding-top: 10px;
+    grid-column: 1;
+    grid-row: 5;
+}
+
+.errand_cancel {
+    padding-top: 10px;
+    grid-column: 2;
+    grid-row: 5;
+}

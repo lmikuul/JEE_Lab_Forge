@@ -1,12 +1,72 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/main.xhtml">
 
-</body>
-</html>
+    <ui:define name="content">
+        <h:outputStylesheet library="errand" name="css/createErrand.css"/><!-- Automatically relocated to head. -->
+        <h:outputStylesheet library="default" name="css/styles.css"/><!-- Automatically relocated to head. -->
+
+        <article class="text--justified">
+            <header><h2>Create new errand</h2></header>
+            <h:form class="createErrand_form">
+                <div class="errand_price">
+                    <h:outputLabel for="price" value="Price: "/>
+                    <h:inputText class="ui-control ui-input" id="price" value="#{errandCreate.errand.price}"/>
+                </div>
+
+                <div class="errand_startDate">
+                    <h:outputLabel for="startDate" value="StartDate:"/>
+                    <h:inputText class="ui-control ui-input" id="startDate" value="#{errandCreate.errand.startDay}">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </h:inputText>
+                </div>
+
+                <div class="errand_endDate">
+                    <h:outputLabel for="doneDate" value="EndDate:"/>
+                    <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandCreate.errand.doneDay}">
+                        <f:converter converterId="LocalDateConverter"/>
+                    </h:inputText>
+                </div>
+
+                <div class="errand_details">
+                    <h:outputLabel for="details" value="Details: "/>
+                    <h:inputText class="ui-control ui-input" id="details" value="#{errandCreate.errand.details}"/>
+                </div>
+
+
+                <div class="errand_equipment">
+                    <h:outputLabel for="equipment" value="Equipment:"/>
+                    <h:selectOneRadio id="equipment" value="#{errandCreate.errand.equipment}"
+                                      layout="pageDirection">
+                        <f:converter converterId="EquipmentModelConverter"/>
+                        <f:selectItems var="equipment" value="#{errandCreate.equipments}" itemValue="#{equipment}"
+                                       itemLabel="#{equipment.name}" itemLabelEscaped="false"/>
+                    </h:selectOneRadio>
+                </div>
+
+                <div class="errand_user">
+                    <h:outputLabel for="user" value="User:"/>
+                    <h:selectOneRadio id="user" value="#{errandCreate.errand.user}"
+                                      layout="pageDirection">
+                        <f:converter converterId="UserModelConverter"/>
+                        <f:selectItems var="user" value="#{errandCreate.users}" itemValue="#{user}"
+                                       itemLabel="#{user.login}" itemLabelEscaped="false"/>
+                    </h:selectOneRadio>
+                </div>
+
+                <div class="errand_save">
+                    <h:commandButton class="ui-control ui-button" value="Save"
+                                     action="#{errandCreate.saveAction()}"/>
+                </div>
+
+                <div class="errand_cancel">
+                    <h:commandButton class="ui-control ui-button" value="Cancel"
+                                     action="#{errandCreate.cancelAction()}"/>
+                </div>
+            </h:form>
+        </article>
+    </ui:define>
+
+</ui:composition>

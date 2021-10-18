@@ -3,6 +3,8 @@ package pl.edu.pg.eti.kask.forge.errand.view;
 import lombok.Getter;
 import lombok.Setter;
 import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
+import pl.edu.pg.eti.kask.forge.equipment.model.EquipmentModel;
+import pl.edu.pg.eti.kask.forge.equipment.model.EquipmentsModel;
 import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
 import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.errand.model.ErrandEditModel;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ViewScoped
 @Named
@@ -30,10 +33,6 @@ public class ErrandEdit implements Serializable {
      * Service for managing characters.
      */
     private final ErrandService service;
-    /**
-     * Service for managing characters.
-     */
-    private final EquipmentService equipmentService;
 
     /**
      * Character id.
@@ -48,11 +47,9 @@ public class ErrandEdit implements Serializable {
     @Getter
     private ErrandEditModel errand;
 
-
     @Inject
-    public ErrandEdit(ErrandService service, EquipmentService equipmentService) {
+    public ErrandEdit(ErrandService service) {
         this.service = service;
-        this.equipmentService = equipmentService;
     }
 
     /**
@@ -77,6 +74,6 @@ public class ErrandEdit implements Serializable {
     public String saveAction() {
         service.update(ErrandEditModel.modelToEntityUpdater().apply(service.find(id).orElseThrow(), errand));
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        return viewId + "?faces-redirect=true&includeViewParams=true";
+        return viewId +"?id="+ id + "&faces-redirect=true&includeViewParams=true";
     }
 }

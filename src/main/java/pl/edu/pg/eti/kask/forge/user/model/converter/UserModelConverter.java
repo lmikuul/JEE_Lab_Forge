@@ -1,9 +1,11 @@
-package pl.edu.pg.eti.kask.forge.equipment.model.converter;
+package pl.edu.pg.eti.kask.forge.user.model.converter;
 
-import lombok.NoArgsConstructor;
 import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.model.EquipmentModel;
 import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
+import pl.edu.pg.eti.kask.forge.user.entity.User;
+import pl.edu.pg.eti.kask.forge.user.model.UserModel;
+import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -18,31 +20,29 @@ import java.util.Optional;
  * managed by container that is injection was not possible. As this bean is not annotated with scope the beans.xml
  * descriptor must be present.
  */
-@FacesConverter(value = "EquipmentModelConverter", managed = true)
-public class EquipmentModelConverter implements Converter<EquipmentModel> {
-    /**
-     * Service for professions management.
-     */
-    private final EquipmentService service;
+@FacesConverter(value = "UserModelConverter", managed = true)
+public class UserModelConverter implements Converter<UserModel> {
+
+    private final UserService service;
 
     @Inject
-    public EquipmentModelConverter(EquipmentService service) {
+    public UserModelConverter(UserService service) {
         this.service = service;
     }
 
     @Override
-    public EquipmentModel getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
+    public UserModel getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
         if (value == null || value.isBlank()) {
             return null;
         }
-        Long id = Long.parseLong(value);
 
-        Optional<Equipment> equipment = service.find(id);
-        return equipment.isEmpty() ? null : EquipmentModel.entityToModelMapper().apply(equipment.get());
+        Optional<User> user = service.find(value);
+
+        return user.isEmpty() ? null : UserModel.entityToModelMapper().apply(user.get());
     }
 
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent uiComponent, EquipmentModel equipmentModel) {
-        return equipmentModel == null ? "" : String.valueOf(equipmentModel.getId());
+    public String getAsString(FacesContext facesContext, UIComponent uiComponent, UserModel userModel) {
+        return userModel == null ? "" : userModel.getLogin();
     }
 }
