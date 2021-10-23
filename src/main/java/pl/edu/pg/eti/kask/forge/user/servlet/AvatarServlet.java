@@ -28,6 +28,7 @@ import java.util.Optional;
 @WebServlet(
         urlPatterns = {AvatarServlet.Paths.AVATAR + "/*"},
         initParams = {@WebInitParam(name = "avatarsPath", value = "E:\\JEE\\avatars")}
+        //initParams = {@WebInitParam(name = "avatarsPath", value = "/home/student/Pulpit/175840/avatars")}
 )
 @MultipartConfig(maxFileSize = 200 * 1024)
 public class AvatarServlet extends HttpServlet {

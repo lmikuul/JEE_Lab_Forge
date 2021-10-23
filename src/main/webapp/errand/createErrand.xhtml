@@ -13,47 +13,55 @@
             <h:form class="createErrand_form">
                 <div class="errand_price">
                     <h:outputLabel for="price" value="Price: "/>
-                    <h:inputText class="ui-control ui-input" id="price" value="#{errandCreate.errand.price}"/>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="price" value="#{errandCreate.errand.price}"/>
+                    </div>
                 </div>
 
                 <div class="errand_startDate">
                     <h:outputLabel for="startDate" value="StartDate:"/>
-                    <h:inputText class="ui-control ui-input" id="startDate" value="#{errandCreate.errand.startDay}">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </h:inputText>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="startDate" value="#{errandCreate.errand.startDay}">
+                            <f:converter converterId="LocalDateConverter"/>
+                        </h:inputText>
+                    </div>
                 </div>
 
                 <div class="errand_endDate">
                     <h:outputLabel for="doneDate" value="EndDate:"/>
-                    <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandCreate.errand.doneDay}">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </h:inputText>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandCreate.errand.doneDay}">
+                            <f:converter converterId="LocalDateConverter"/>
+                        </h:inputText>
+                    </div>
                 </div>
 
                 <div class="errand_details">
                     <h:outputLabel for="details" value="Details: "/>
-                    <h:inputText class="ui-control ui-input" id="details" value="#{errandCreate.errand.details}"/>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="details" value="#{errandCreate.errand.details}"/>
+                    </div>
                 </div>
 
 
                 <div class="errand_equipment">
                     <h:outputLabel for="equipment" value="Equipment:"/>
-                    <h:selectOneRadio id="equipment" value="#{errandCreate.errand.equipment}"
+                    <h:selectOneMenu id="equipment" value="#{errandCreate.errand.equipment}"
                                       layout="pageDirection">
                         <f:converter converterId="EquipmentModelConverter"/>
                         <f:selectItems var="equipment" value="#{errandCreate.equipments}" itemValue="#{equipment}"
                                        itemLabel="#{equipment.name}" itemLabelEscaped="false"/>
-                    </h:selectOneRadio>
+                    </h:selectOneMenu>
                 </div>
 
                 <div class="errand_user">
                     <h:outputLabel for="user" value="User:"/>
-                    <h:selectOneRadio id="user" value="#{errandCreate.errand.user}"
+                    <h:selectOneMenu id="user" value="#{errandCreate.errand.user}"
                                       layout="pageDirection">
                         <f:converter converterId="UserModelConverter"/>
                         <f:selectItems var="user" value="#{errandCreate.users}" itemValue="#{user}"
                                        itemLabel="#{user.login}" itemLabelEscaped="false"/>
-                    </h:selectOneRadio>
+                    </h:selectOneMenu>
                 </div>
 
                 <div class="errand_save">

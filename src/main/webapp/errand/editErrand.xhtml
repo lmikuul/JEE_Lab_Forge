@@ -17,23 +17,31 @@
             <h:form class="errand_form">
                 <div class="errand_price">
                     <h:outputLabel for="price" value="Price: "/>
-                    <h:inputText class="ui-control ui-input" id="price" value="#{errandEdit.errand.price}"/>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="price" value="#{errandEdit.errand.price}"/>
+                    </div>
                 </div>
                 <div class="errand_details">
                     <h:outputLabel for="details" value="Details: "/>
-                    <h:inputText class="ui-control ui-input" id="details" value="#{errandEdit.errand.details}"/>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="details" value="#{errandEdit.errand.details}"/>
+                    </div>
                 </div>
                 <div class="errand_startDate">
                     <h:outputLabel for="startDate" value="Start date: "/>
-                    <h:inputText class="ui-control ui-input" id="startDate"  value="#{errandEdit.errand.startDay}">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </h:inputText>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="startDate"  value="#{errandEdit.errand.startDay}">
+                            <f:converter converterId="LocalDateConverter"/>
+                        </h:inputText>
+                    </div>
                 </div>
                 <div class="errand_endDate">
                     <h:outputLabel for="startDate" value="End date: "/>
-                    <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandEdit.errand.doneDay}">
-                        <f:converter converterId="LocalDateConverter"/>
-                    </h:inputText>
+                    <div>
+                        <h:inputText class="ui-control ui-input" id="doneDate" value="#{errandEdit.errand.doneDay}">
+                            <f:converter converterId="LocalDateConverter"/>
+                        </h:inputText>
+                    </div>
                 </div>
 
                 <div class="errand_update">

@@ -34,3 +34,8 @@ Content-Disposition: form-data; name="avatar"; filename="avatar.jpg'
 DELETE http://localhost:9080/forge/api/avatars/cyryl
 Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
+
+###
+
+GET http://localhost:9080/forge/api/errands
+Authorization: Basic a2V2aW46dXNlcnVzZXI=

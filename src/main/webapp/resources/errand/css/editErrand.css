@@ -1,6 +1,6 @@
 .errand_form {
     display: grid;
-    grid-template-columns: 200px 200px 200px;
+    grid-template-columns: 300px 300px 300px;
 }
 
 .errand_price {
