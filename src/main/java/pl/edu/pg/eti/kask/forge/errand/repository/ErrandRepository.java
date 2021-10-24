@@ -59,4 +59,19 @@ public class ErrandRepository implements Repository<Errand, Long> {
     public Long getNewId() {
         return store.getNewErrandId();
     }
+
+    public Optional<Errand> findByEquipment(Long errandId, Equipment equipment) {
+        return store.findAllErrands().stream()
+                .filter(errand -> errand.getEquipment().equals(equipment))
+                .filter(errand -> errand.getId() == errandId)
+                .findFirst()
+                .map(CloningUtility::clone);
+    }
+
+    public void deleteAllByEquipment(Equipment equipment) {
+        List<Errand> errands = findAllByEquipment(equipment.getId());
+        for (Errand errand:errands){
+            delete(errand);
+        }
+    }
 }

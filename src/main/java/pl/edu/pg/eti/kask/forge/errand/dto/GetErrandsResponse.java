@@ -43,10 +43,6 @@ public class GetErrandsResponse {
          * Errand's price
          */
         private double price;
-        /**
-         * Errand's details
-         */
-        private String details;
     }
 
     @Singular
@@ -64,7 +60,6 @@ public class GetErrandsResponse {
                             .user(errand.getUser())
                             .equipment(errand.getEquipment())
                             .price(errand.getPrice())
-                            .details(errand.getDetails())
                             .build())
                     .forEach(response::dtoGetErrand);
             return response.build();

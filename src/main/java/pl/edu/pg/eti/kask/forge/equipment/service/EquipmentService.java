@@ -75,4 +75,7 @@ public class EquipmentService {
         equipmentRepository.delete(equipmentRepository.find(id).orElseThrow());
     }
 
+    public void deleteAll() {
+        equipmentRepository.deleteAll();
+    }
 }

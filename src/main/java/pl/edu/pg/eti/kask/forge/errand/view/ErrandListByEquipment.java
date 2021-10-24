@@ -46,7 +46,7 @@ public class ErrandListByEquipment implements Serializable {
      */
     public ErrandsModel getErrands() {
         if (errands == null) {
-            errands = ErrandsModel.entityToModelMapper().apply(service.findAllForEquipment(equipmentId));
+            errands = ErrandsModel.entityToModelMapper().apply(service.findAllForEquipment(equipmentId).get());
         }
         return errands;
     }

@@ -8,7 +8,6 @@ import pl.edu.pg.eti.kask.forge.errand.repository.ErrandRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,15 +21,17 @@ public class ErrandService {
     /**
      * Repository for user entity.
      */
-    private ErrandRepository repository;
+    private ErrandRepository errandRepository;
+    private EquipmentRepository equipmentRepository;
 
 
     /**
-     * @param repository repository for user entity
+     * @param errandRepository repository for user entity
      */
     @Inject
-    public ErrandService(ErrandRepository repository) {
-        this.repository = repository;
+    public ErrandService(ErrandRepository errandRepository, EquipmentRepository equipmentRepository) {
+        this.errandRepository = errandRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
     /**
@@ -38,14 +39,14 @@ public class ErrandService {
      * @return container (can be empty) with user
      */
     public Optional<Errand> find(Long id) {
-        return repository.find(id);
+        return errandRepository.find(id);
     }
 
     /**
      * @return list of users
      */
     public List<Errand> findAll() {
-        return repository.findAll();
+        return errandRepository.findAll();
     }
 
     /**
@@ -54,7 +55,7 @@ public class ErrandService {
      * @param errand new user to be saved
      */
     public void create(Errand errand) {
-        repository.create(errand);
+        errandRepository.create(errand);
     }
 
     /**
@@ -63,7 +64,7 @@ public class ErrandService {
      * @param errand new user to be saved
      */
     public void update(Errand errand) {
-        repository.update(errand);
+        errandRepository.update(errand);
     }
 
     /**
@@ -72,14 +73,37 @@ public class ErrandService {
      * @param id new user to be saved
      */
     public void delete(Long id) {
-        repository.delete(repository.find(id).orElseThrow());
+        errandRepository.delete(errandRepository.find(id).orElseThrow());
     }
 
-    public List<Errand> findAllForEquipment(Long equipmentId) {
-        return repository.findAllByEquipment(equipmentId);
+    public Optional<List<Errand>> findAllForEquipment(Long equipmentId) {
+        Optional<Equipment> equipment = equipmentRepository.find(equipmentId);
+        if(equipment.isEmpty()){
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(errandRepository.findAllByEquipment(equipmentId));
+        }
     }
 
     public Long getNewId(){
-        return repository.getNewId();
+        return errandRepository.getNewId();
+    }
+
+    public Optional<Errand> findForEquipment(Long equipmentId, Long errandId) {
+        Optional<Equipment> equipment = equipmentRepository.find(equipmentId);
+        if(equipment.isEmpty()){
+            return Optional.empty();
+        }
+        else {
+            return errandRepository.findByEquipment(errandId, equipment.get());
+        }
+    }
+
+    public void deleteAllForEquipment(Long equipmentId) {
+        Optional<Equipment> equipment = equipmentRepository.find(equipmentId);
+        if(equipment.isPresent()){
+            errandRepository.deleteAllByEquipment(equipment.get());
+        }
     }
 }

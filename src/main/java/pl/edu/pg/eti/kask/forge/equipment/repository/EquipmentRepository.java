@@ -49,4 +49,12 @@ public class EquipmentRepository implements Repository<Equipment, Long> {
     public void update(Equipment entity) {
         store.updateEquipment(entity);
     }
+
+    public void deleteAll() {
+        List<Equipment> equipments = findAll();
+
+        for (Equipment eq : equipments){
+            store.deleteEquipment(eq.getId());
+        }
+    }
 }

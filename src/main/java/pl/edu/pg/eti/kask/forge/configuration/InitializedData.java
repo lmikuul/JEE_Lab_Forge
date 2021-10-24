@@ -164,6 +164,7 @@ public class InitializedData implements ServletContextListener {
                 .equipment(sword)
                 .price(289.50)
                 .startDay(LocalDate.now())
+                .doneDay(LocalDate.parse("2022-01-01"))
                 .details("With my name on it.")
                 .build();
 
@@ -180,7 +181,11 @@ public class InitializedData implements ServletContextListener {
     @SneakyThrows
     private byte[] getResourceAsByteArray(String name) {
         try (InputStream is = this.getClass().getResourceAsStream(name)) {
+            assert is != null;
             return is.readAllBytes();
+        }
+        catch (NullPointerException e){
+            return null;
         }
     }
 

@@ -1,41 +1,128 @@
-GET http://localhost:9080/forge/api/users
+GET http://localhost:9080/forge/api/equipments
 Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 ###
 
-GET http://localhost:9080/forge/api/users/diana
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
-###
-
-GET http://localhost:9080/forge/api/avatars/cyryl
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
-###
-
-GET http://localhost:9080/forge/api/avatars/bob
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
-###
-
-
-PUT http://localhost:9080/forge/api/avatars/cyryl
-Content-Type: multipart/form-data; boundary=boundary
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
---boundary
-Content-Disposition: form-data; name="avatar"; filename="avatar.jpg'
-
-< /home/student/Pulpit/175840/Lab1_JEE/src/main/resources/avatars/avatar.jpg
---boundary--
-
-###
-
-DELETE http://localhost:9080/forge/api/avatars/cyryl
+GET http://localhost:9080/forge/api/equipments/7
 Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 
 ###
 
-GET http://localhost:9080/forge/api/errands
+
+POST http://localhost:9080/forge/api/equipments
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "id": 7,
+  "name": "Test",
+  "type": "SIEGE_WEAPON",
+  "mainMaterial": "Wood",
+  "weight": 900.1
+}
+
+###
+
+
+PUT http://localhost:9080/forge/api/equipments/7
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Trebuchet",
+  "type": "SIEGE_WEAPON",
+  "mainMaterial": "Stone",
+  "weight": 1900.1
+}
+
+###
+
+PUT http://localhost:9080/forge/api/equipments
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "equipments": [
+    {
+      "id": 1,
+      "name": "Test",
+      "type": "SIEGE_WEAPON",
+      "mainMaterial": "Steel",
+      "weight": 2231
+    },
+
+    {
+      "id": 2,
+      "name": "Answer",
+      "type": "SIEGE_WEAPON",
+      "mainMaterial": "Bronze",
+      "weight": 123.7
+    },
+
+    {
+      "id": 3,
+      "name": "None",
+      "type": "SIEGE_WEAPON",
+      "mainMaterial": "Amber",
+      "weight": 32.4
+    }
+  ]
+}
+
+###
+
+DELETE http://localhost:9080/forge/api/equipments/7
+
+
+###
+
+DELETE http://localhost:9080/forge/api/equipments
+
+###
+
+GET http://localhost:9080/forge/api/equipments/2/errands
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/forge/api/equipments/2/errands/7
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+
+### Test
+
+POST http://localhost:9080/forge/api/equipments/2/errands
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "id": 7,
+  "user": "diana",
+  "price": 289.5,
+  "startDay": "2021-09-29",
+  "details": "New and strong"
+}
+
+###
+
+PUT http://localhost:9080/forge/api/equipments/4/errands/7
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "user": "cyryl",
+  "price": 28.5,
+  "startDay": "2021-08-29",
+  "doneDay": "2022-12-12",
+  "details": "Test"
+}
+###
+
+DELETE http://localhost:9080/forge/api/equipments/2/errands/7
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+DELETE http://localhost:9080/forge/api/equipments/1/errands
 Authorization: Basic a2V2aW46dXNlcnVzZXI=
