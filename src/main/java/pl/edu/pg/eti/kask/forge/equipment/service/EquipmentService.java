@@ -8,6 +8,7 @@ import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,7 @@ public class EquipmentService {
     public Optional<Equipment> find(Long id) {
         return equipmentRepository.find(id);
     }
+
     public Optional<Equipment> find(String name) {
         return equipmentRepository.find(name);
     }
@@ -53,6 +55,7 @@ public class EquipmentService {
      *
      * @param equipment new user to be saved
      */
+    @Transactional
     public void create(Equipment equipment) {
         equipmentRepository.create(equipment);
     }
@@ -62,6 +65,7 @@ public class EquipmentService {
      *
      * @param equipment new user to be saved
      */
+    @Transactional
     public void update(Equipment equipment) {
         equipmentRepository.update(equipment);
     }
@@ -71,10 +75,12 @@ public class EquipmentService {
      *
      * @param id new user to be saved
      */
+    @Transactional
     public void delete(Long id) {
         equipmentRepository.delete(equipmentRepository.find(id).orElseThrow());
     }
 
+    @Transactional
     public void deleteAll() {
         equipmentRepository.deleteAll();
     }

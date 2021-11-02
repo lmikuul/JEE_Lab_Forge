@@ -5,67 +5,72 @@ import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.repository.Repository;
 import pl.edu.pg.eti.kask.forge.serialization.CloningUtility;
+import pl.edu.pg.eti.kask.forge.user.entity.User;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequestScoped
 public class ErrandRepository implements Repository<Errand, Long> {
-    /**
-     * Underlying data store. In future should be replaced with database connection.
-     */
-    private final DataStore store;
-    /**
-     * @param store data store
-     */
-    @Inject
-    public ErrandRepository(DataStore store) {
-        this.store = store;
+
+    private EntityManager em;
+
+    @PersistenceContext
+    private void setEm(EntityManager em){
+        this.em = em;
     }
 
     @Override
     public Optional<Errand> find(Long id) {
-        return store.findErrand(id);
+        return Optional.ofNullable(em.find(Errand.class, id));
     }
 
     @Override
     public List<Errand> findAll() {
-        return store.findAllErrands();
+        return em.createQuery("select e from Errand e", Errand.class).getResultList();
     }
 
     @Override
     public void create(Errand entity) {
-        store.createErrand(entity);
+        em.persist(entity);
     }
 
     @Override
     public void delete(Errand entity) {
-        store.deleteErrand(entity.getId());
+        em.remove(em.find(Errand.class, entity.getId()));
     }
 
     @Override
     public void update(Errand entity) {
-        store.updateErrand(entity);
+        em.merge(entity);
+    }
+
+    @Override
+    public void detach(Errand entity){
+        em.detach(entity);
     }
 
     public List<Errand> findAllByEquipment(Long equipmentId) {
-        return store.findAllErrands().stream()
-                .filter(errand -> errand.getEquipment().getId() == equipmentId)
-                .map(CloningUtility::clone)
-                .collect(Collectors.toList());
+        return em.createQuery("select e from Errand e where e.equipment.id = :equipmentId", Errand.class)
+                .setParameter("equipmentId", equipmentId)
+                .getResultList();
     }
 
     public Long getNewId() {
-        return store.getNewErrandId();
+        long id = Long.parseLong((em.createQuery("select MAX(e.id) from Errand e").getSingleResult()).toString());
+        return id + 1;
     }
 
     public Optional<Errand> findByEquipment(Long errandId, Equipment equipment) {
-        return store.findAllErrands().stream()
-                .filter(errand -> errand.getEquipment().equals(equipment))
-                .filter(errand -> errand.getId() == errandId)
-                .findFirst()
-                .map(CloningUtility::clone);
+        return Optional.of(em.createQuery("select e from Errand e where e.id = :errandId and e.equipment.id = :eqId", Errand.class)
+                .setParameter("errandId", errandId)
+                .setParameter("eqId", equipment.getId())
+                .getSingleResult());
     }
 
     public void deleteAllByEquipment(Equipment equipment) {

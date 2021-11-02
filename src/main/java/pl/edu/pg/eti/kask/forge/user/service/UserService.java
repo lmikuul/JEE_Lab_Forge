@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.transaction.Transactional;
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +59,7 @@ public class UserService {
      *
      * @param user new user to be saved
      */
+    @Transactional
     public void create(User user) {
         repository.create(user);
     }
@@ -67,6 +69,7 @@ public class UserService {
      *
      * @param user new user to be saved
      */
+    @Transactional
     public void update(User user) {
         repository.update(user);
     }
@@ -77,6 +80,7 @@ public class UserService {
      * @param targetFilePath Path to the server avatar's directory
      * @throws IOException
      */
+    @Transactional
     public void uploadAvatar(InputStream avatar, String targetFilePath) throws IOException{
 
         Path targetFile = java.nio.file.Paths.get(targetFilePath);
@@ -89,6 +93,7 @@ public class UserService {
      * @param targetPath Path to file to delete
      * @throws IOException
      */
+    @Transactional
     public void deleteAvatar(String targetPath) throws IOException {
         Path path = java.nio.file.Paths.get(targetPath);
 

@@ -8,6 +8,7 @@ import pl.edu.pg.eti.kask.forge.errand.repository.ErrandRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,8 +55,12 @@ public class ErrandService {
      *
      * @param errand new user to be saved
      */
+    @Transactional
     public void create(Errand errand) {
         errandRepository.create(errand);
+        equipmentRepository.find(errand.getEquipment().getId()).ifPresent(
+                equipment -> equipment.getErrands().add(errand)
+        );
     }
 
     /**
@@ -63,7 +68,10 @@ public class ErrandService {
      *
      * @param errand new user to be saved
      */
+    @Transactional
     public void update(Errand errand) {
+        Errand original = errandRepository.find(errand.getId()).orElseThrow();
+        errandRepository.detach(original);
         errandRepository.update(errand);
     }
 
@@ -72,8 +80,11 @@ public class ErrandService {
      *
      * @param id new user to be saved
      */
+    @Transactional
     public void delete(Long id) {
-        errandRepository.delete(errandRepository.find(id).orElseThrow());
+        Errand errand = errandRepository.find(id).orElseThrow();
+        errand.getEquipment().getErrands().remove(errand);
+        errandRepository.delete(errand);
     }
 
     public Optional<List<Errand>> findAllForEquipment(Long equipmentId) {
@@ -100,10 +111,9 @@ public class ErrandService {
         }
     }
 
+    @Transactional
     public void deleteAllForEquipment(Long equipmentId) {
         Optional<Equipment> equipment = equipmentRepository.find(equipmentId);
-        if(equipment.isPresent()){
-            errandRepository.deleteAllByEquipment(equipment.get());
-        }
+        equipment.ifPresent(value -> errandRepository.deleteAllByEquipment(value));
     }
 }

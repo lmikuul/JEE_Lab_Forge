@@ -1,11 +1,15 @@
 package pl.edu.pg.eti.kask.forge.user.repository;
 
 import pl.edu.pg.eti.kask.forge.datastore.DataStore;
+import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.repository.Repository;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -17,46 +21,43 @@ import java.util.Optional;
 /**
  * Repository for User entity. Repositories should be used in business layer (e.g.: in services).
  */
-@Dependent
+@RequestScoped
 public class UserRepository implements Repository<User, String> {
 
-    /**
-     * Underlying data store. In future should be replaced with database connection.
-     */
-    private final DataStore store;
+    private EntityManager em;
 
-    /**
-     * @param store data store
-     */
-    @Inject
-    public UserRepository(DataStore store) {
-        this.store = store;
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public Optional<User> find(String login) {
-        return store.findUser(login);
+        return Optional.ofNullable(em.find(User.class, login));
     }
 
     @Override
     public List<User> findAll() {
-        return store.findAllUsers();
+        return em.createQuery("select e from User e", User.class).getResultList();
     }
 
     @Override
     public void create(User entity) {
-        store.createUser(entity);
+        em.persist(entity);
     }
 
     @Override
     public void update(User entity) {
-        store.updateUser(entity);
+        em.merge(entity);
     }
 
     @Override
     public void delete(User entity) {
-        throw new UnsupportedOperationException("Not implemented.");
+        em.remove(em.find(User.class, entity.getLogin()));
     }
 
-
+    @Override
+    public void detach(User entity){
+        em.detach(entity);
+    }
 }
