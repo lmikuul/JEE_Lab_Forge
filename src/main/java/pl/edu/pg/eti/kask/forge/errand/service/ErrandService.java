@@ -5,6 +5,8 @@ import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.repository.EquipmentRepository;
 import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.errand.repository.ErrandRepository;
+import pl.edu.pg.eti.kask.forge.user.entity.User;
+import pl.edu.pg.eti.kask.forge.user.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,15 +26,17 @@ public class ErrandService {
      */
     private ErrandRepository errandRepository;
     private EquipmentRepository equipmentRepository;
+    private UserRepository userRepository;
 
 
     /**
      * @param errandRepository repository for user entity
      */
     @Inject
-    public ErrandService(ErrandRepository errandRepository, EquipmentRepository equipmentRepository) {
+    public ErrandService(ErrandRepository errandRepository, EquipmentRepository equipmentRepository, UserRepository userRepository) {
         this.errandRepository = errandRepository;
         this.equipmentRepository = equipmentRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -94,6 +98,16 @@ public class ErrandService {
         }
         else {
             return Optional.of(errandRepository.findAllByEquipment(equipmentId));
+        }
+    }
+
+    public Optional<List<Errand>> findAllForUser(String userLogin) {
+        Optional<User> user = userRepository.find(userLogin);
+        if(user.isEmpty()){
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(errandRepository.findAllByUser(userLogin));
         }
     }
 

@@ -61,6 +61,12 @@ public class ErrandRepository implements Repository<Errand, Long> {
                 .getResultList();
     }
 
+    public List<Errand> findAllByUser(String userLogin) {
+        return em.createQuery("select e from Errand e where e.user.login = :userLogin", Errand.class)
+                .setParameter("userLogin", userLogin)
+                .getResultList();
+    }
+
     public Long getNewId() {
         long id = Long.parseLong((em.createQuery("select MAX(e.id) from Errand e").getSingleResult()).toString());
         return id + 1;

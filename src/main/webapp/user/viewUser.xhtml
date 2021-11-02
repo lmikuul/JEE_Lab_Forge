@@ -7,11 +7,13 @@
 
     <f:metadata>
         <f:viewParam name="login" value="#{userView.login}" required="true"/>
+        <f:viewParam name="login" value="#{errandListByUser.userLogin}" required="true"/>
         <f:viewAction action="#{userView.init()}"/>
     </f:metadata>
 
     <ui:define name="content">
         <h:outputStylesheet library="user" name="css/checkUser.css"/><!-- Automatically relocated to head. -->
+        <div>
             <article id="checkUserPanel" class="text--justified">
                 <header><h2>User: <h:outputText value="#{userView.login}"/></h2></header>
                 <div class="character__grid">
@@ -29,6 +31,46 @@
                     </div>
                 </div>
             </article>
+        </div>
+        <div class="equipment__errands">
+            <header class="equipment__header"><h2>User Errands</h2></header>
+            <h:dataTable value="#{errandListByUser.errands.modelErrands}" var="errand" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{errand.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Equipment</f:facet>
+                    <h:outputText value="#{errand.equipmentName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Start day</f:facet>
+                    <h:outputText value="#{errand.startDay}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">View</f:facet>
+                    <h:link outcome="/errand/viewErrand.xhtml" value="View">
+                        <f:param name="id" value="#{errand.id}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Edit</f:facet>
+                    <h:link outcome="/errand/editErrand.xhtml" value="Edit">
+                        <f:param name="id" value="#{errand.id}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Delete</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="ui-button ui-control" value="Delete"
+                                         action="#{errandListByUser.deleteAction(errand)}"/>
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+            <div>
+                <h:link outcome="/errand/createErrand.xhtml" value="Create new errand"/>
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>
