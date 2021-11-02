@@ -65,6 +65,9 @@ public class ErrandService {
         equipmentRepository.find(errand.getEquipment().getId()).ifPresent(
                 equipment -> equipment.getErrands().add(errand)
         );
+        userRepository.find(errand.getUser().getLogin()).ifPresent(
+                user -> user.getErrands().add(errand)
+        );
     }
 
     /**
@@ -88,6 +91,7 @@ public class ErrandService {
     public void delete(Long id) {
         Errand errand = errandRepository.find(id).orElseThrow();
         errand.getEquipment().getErrands().remove(errand);
+        errand.getUser().getErrands().remove(errand);
         errandRepository.delete(errand);
     }
 
