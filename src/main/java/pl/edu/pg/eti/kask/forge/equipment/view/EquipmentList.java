@@ -3,6 +3,7 @@ package pl.edu.pg.eti.kask.forge.equipment.view;
 import pl.edu.pg.eti.kask.forge.equipment.model.EquipmentsModel;
 import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -16,16 +17,19 @@ public class EquipmentList implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final EquipmentService service;
+    private EquipmentService service;
 
     /**
      * Characters list exposed to the view.
      */
     private EquipmentsModel equipments;
 
-    @Inject
-    public EquipmentList(EquipmentService service) {
-        this.service = service;
+    public EquipmentList() {
+    }
+
+    @EJB
+    public void setService(EquipmentService service){
+        this.service=service;
     }
 
     /**

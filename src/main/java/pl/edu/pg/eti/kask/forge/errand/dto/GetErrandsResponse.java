@@ -34,11 +34,11 @@ public class GetErrandsResponse {
         /**
          * Errand's user
          */
-        private User user;
+        private String user;
         /**
          * Errand's equipment
          */
-        private Equipment equipment;
+        private long equipment;
         /**
          * Errand's price
          */
@@ -57,8 +57,8 @@ public class GetErrandsResponse {
             errands.stream()
                     .map(errand -> dtoGetErrand.builder()
                             .id(errand.getId())
-                            .user(errand.getUser())
-                            .equipment(errand.getEquipment())
+                            .user(errand.getUser().getLogin())
+                            .equipment(errand.getEquipment().getId())
                             .price(errand.getPrice())
                             .build())
                     .forEach(response::dtoGetErrand);

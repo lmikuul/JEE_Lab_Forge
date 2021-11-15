@@ -3,8 +3,11 @@ package pl.edu.pg.eti.kask.forge.equipment.controller;
 import pl.edu.pg.eti.kask.forge.equipment.dto.*;
 import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
+import pl.edu.pg.eti.kask.forge.user.entity.Role;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("")
+@RolesAllowed(Role.USER)
 public class EquipmentController {
 
     private EquipmentService service;
@@ -28,7 +32,7 @@ public class EquipmentController {
     @GET
     @Path("/equipments")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUsers(){
+    public Response getEquipments(){
         return Response
                 .ok(GetEquipmentsResponse.entityToDtoMapper().apply(service.findAll()))
                 .build();
@@ -54,6 +58,7 @@ public class EquipmentController {
     @POST
     @Path("/equipments")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public Response postEquipment(CreateEquipmentRequest request){
         Equipment equipment = CreateEquipmentRequest.dtoToEntityMapper().apply(request);
         service.create(equipment);
@@ -67,6 +72,7 @@ public class EquipmentController {
     @PUT
     @Path("/equipments/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public Response putEquipment(@PathParam("id") Long id, UpdateEquipmentRequest request){
         Optional<Equipment> equipment = service.find(id);
         if(equipment.isPresent()){
@@ -85,17 +91,9 @@ public class EquipmentController {
 
     }
 
-    @PUT
-    @Path("/equipments")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response putEquipments(UpdateEquipmentsRequest request){
-        return Response
-                .status(Response.Status.NOT_IMPLEMENTED)
-                .build();
-    }
-
     @DELETE
     @Path("/equipments/{id}")
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public Response deleteEquipment(@PathParam("id") Long id){
         Optional<Equipment> equipment = service.find(id);
         if(equipment.isPresent()){
@@ -113,6 +111,7 @@ public class EquipmentController {
 
     @DELETE
     @Path("/equipments")
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public Response deleteEquipments() {
         service.deleteAll();
 

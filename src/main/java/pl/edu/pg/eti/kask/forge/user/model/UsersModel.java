@@ -43,7 +43,7 @@ public class UsersModel  implements Serializable {
         /**
          * User's role in system defining privileges
          */
-        private Role role;
+        private List<String> roles;
 
     }
 
@@ -63,7 +63,7 @@ public class UsersModel  implements Serializable {
                     .map(user -> ModelUser.builder()
                             .login(user.getLogin())
                             .birthDate(user.getBirthDate())
-                            .role(user.getRole())
+                            .roles(user.getRoles())
                             .build())
                     .forEach(model::modelUser);
             return model.build();

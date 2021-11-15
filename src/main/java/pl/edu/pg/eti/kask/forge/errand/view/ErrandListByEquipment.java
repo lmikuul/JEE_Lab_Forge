@@ -9,6 +9,7 @@ import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.errand.model.ErrandsModel;
 import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -23,7 +24,7 @@ public class ErrandListByEquipment implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final ErrandService service;
+    private ErrandService service;
 
     @Setter
     @Getter
@@ -33,9 +34,13 @@ public class ErrandListByEquipment implements Serializable {
      */
     private ErrandsModel errands;
 
-    @Inject
-    public ErrandListByEquipment(ErrandService service) {
-        this.service = service;
+
+    public ErrandListByEquipment() {
+    }
+
+    @EJB
+    public void setService(ErrandService service){
+        this.service=service;
     }
 
     /**

@@ -23,11 +23,11 @@ public class GetErrandResponse {
     /**
      * Errand's user
      */
-    private User user;
+    private String user;
     /**
      * Errand's equipment
      */
-    private Equipment equipment;
+    private String equipment;
     /**
      * Errand's price
      */
@@ -48,8 +48,8 @@ public class GetErrandResponse {
     public static Function<Errand, GetErrandResponse>entityToDtoMapper(){
         return errand -> GetErrandResponse.builder()
                 .id(errand.getId())
-                .user(errand.getUser())
-                .equipment(errand.getEquipment())
+                .user(errand.getUser().getLogin())
+                .equipment(errand.getEquipment().getName())
                 .price(errand.getPrice())
                 .startDay(errand.getStartDay())
                 .doneDay(errand.getDoneDay())

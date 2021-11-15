@@ -5,30 +5,36 @@ import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.repository.EquipmentRepository;
 import pl.edu.pg.eti.kask.forge.errand.repository.ErrandRepository;
 import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
+import pl.edu.pg.eti.kask.forge.user.entity.Role;
+import pl.edu.pg.eti.kask.forge.user.repository.UserRepository;
 
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.security.enterprise.SecurityContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
+@Stateless
+@LocalBean
 @NoArgsConstructor
+@RolesAllowed(Role.USER)
 public class EquipmentService {
 
     /**
      * Repository for user entity.
      */
     private EquipmentRepository equipmentRepository;
-    private ErrandRepository errandRepository;
 
     /**
      * @param equipmentRepository repository for user entity
      */
     @Inject
-    public EquipmentService(EquipmentRepository equipmentRepository, ErrandRepository errandRepository) {
+    public EquipmentService(EquipmentRepository equipmentRepository, UserRepository userRepository) {
         this.equipmentRepository = equipmentRepository;
-        this.errandRepository = errandRepository;
     }
 
     /**
@@ -38,6 +44,7 @@ public class EquipmentService {
     public Optional<Equipment> find(Long id) {
         return equipmentRepository.find(id);
     }
+
 
     public Optional<Equipment> find(String name) {
         return equipmentRepository.find(name);
@@ -55,7 +62,7 @@ public class EquipmentService {
      *
      * @param equipment new user to be saved
      */
-    @Transactional
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public void create(Equipment equipment) {
         equipmentRepository.create(equipment);
     }
@@ -65,7 +72,7 @@ public class EquipmentService {
      *
      * @param equipment new user to be saved
      */
-    @Transactional
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public void update(Equipment equipment) {
         equipmentRepository.update(equipment);
     }
@@ -75,12 +82,12 @@ public class EquipmentService {
      *
      * @param id new user to be saved
      */
-    @Transactional
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public void delete(Long id) {
         equipmentRepository.delete(equipmentRepository.find(id).orElseThrow());
     }
 
-    @Transactional
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public void deleteAll() {
         equipmentRepository.deleteAll();
     }

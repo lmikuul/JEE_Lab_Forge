@@ -6,6 +6,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.User;
 import pl.edu.pg.eti.kask.forge.user.model.UserEditModel;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -23,7 +24,7 @@ public class UserEdit implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final UserService service;
+    private UserService service;
 
     /**
      * Character id.
@@ -45,8 +46,11 @@ public class UserEdit implements Serializable {
     @Setter
     private Part avatar;
 
-    @Inject
-    public UserEdit(UserService service) {
+    public UserEdit() {
+    }
+
+    @EJB
+    public void setService(UserService service){
         this.service = service;
     }
 

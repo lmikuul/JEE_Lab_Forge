@@ -31,6 +31,7 @@ public class Equipment implements Serializable {
     /**
      * Equipment's type
      */
+    @Enumerated(EnumType.STRING)
     private EquipmentType type;
     /**
      * Equipment's material

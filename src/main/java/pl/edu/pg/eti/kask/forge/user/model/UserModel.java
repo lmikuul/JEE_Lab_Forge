@@ -5,6 +5,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -29,7 +30,7 @@ public class UserModel {
     /**
      * User's role in system defining privileges
      */
-    private Role role;
+    private List<String> roles;
     /**
      * User's role in system defining privileges
      */
@@ -42,7 +43,7 @@ public class UserModel {
         return user -> UserModel.builder()
                 .login(user.getLogin())
                 .birthDate(user.getBirthDate())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .avatar("/api/avatars/" + user.getLogin())
                 .build();
     }

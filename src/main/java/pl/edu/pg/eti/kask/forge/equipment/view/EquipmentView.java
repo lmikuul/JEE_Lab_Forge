@@ -10,6 +10,7 @@ import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.errand.model.ErrandsModel;
 import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -25,7 +26,7 @@ public class EquipmentView {
     /**
      * Service for managing characters.
      */
-    private final EquipmentService equipmentService;
+    private EquipmentService equipmentService;
     /**
      * Equipment's id
      */
@@ -36,9 +37,12 @@ public class EquipmentView {
     @Getter
     private EquipmentModel equipment;
 
-    @Inject
-    public EquipmentView(EquipmentService equipmentService) {
-        this.equipmentService = equipmentService;
+    public EquipmentView() {
+    }
+
+    @EJB
+    public void setEquipmentService(EquipmentService equipmentService){
+        this.equipmentService=equipmentService;
     }
     /**
      * In order to prevent calling service on different steps of JSF request lifecycle, model property is cached wihitn

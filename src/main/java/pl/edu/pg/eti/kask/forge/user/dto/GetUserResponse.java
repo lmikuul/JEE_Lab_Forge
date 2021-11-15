@@ -5,6 +5,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -27,11 +28,15 @@ public class GetUserResponse {
     /**
      * User's role in system defining privileges
      */
-    private Role role;
+    private List<String> roles;
     /**
      * User's birthdate.
      */
     private LocalDate birthDate;
+    /**
+     * User's birthdate.
+     */
+    //private String password;
 
     /**
      * @return mapper for convenient converting entity object to dto object
@@ -40,7 +45,8 @@ public class GetUserResponse {
         return user -> GetUserResponse.builder()
                 .login(user.getLogin())
                 .birthDate(user.getBirthDate())
-                .role(user.getRole())
+                .roles(user.getRoles())
+                //.password(user.getPassword())
                 .build();
     }
 

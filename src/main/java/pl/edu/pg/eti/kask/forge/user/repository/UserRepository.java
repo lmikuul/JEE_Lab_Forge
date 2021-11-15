@@ -1,27 +1,20 @@
 package pl.edu.pg.eti.kask.forge.user.repository;
 
-import pl.edu.pg.eti.kask.forge.datastore.DataStore;
-import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.repository.Repository;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Repository for User entity. Repositories should be used in business layer (e.g.: in services).
  */
-@RequestScoped
+@Dependent
 public class UserRepository implements Repository<User, String> {
 
     private EntityManager em;
@@ -59,5 +52,16 @@ public class UserRepository implements Repository<User, String> {
     @Override
     public void detach(User entity){
         em.detach(entity);
+    }
+
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        try {
+            return Optional.of(em.createQuery("select u from User u where u.login = :login and u.password = :password", User.class)
+                    .setParameter("login", login)
+                    .setParameter("password", password)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 }

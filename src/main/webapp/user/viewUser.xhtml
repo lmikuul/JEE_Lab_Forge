@@ -59,13 +59,6 @@
                         <f:param name="id" value="#{errand.id}"/>
                     </h:link>
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Delete</f:facet>
-                    <h:form>
-                        <h:commandButton styleClass="ui-button ui-control" value="Delete"
-                                         action="#{errandListByUser.deleteAction(errand)}"/>
-                    </h:form>
-                </h:column>
             </h:dataTable>
             <div>
                 <h:link outcome="/errand/createErrand.xhtml" value="Create new errand"/>

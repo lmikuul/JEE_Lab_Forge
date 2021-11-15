@@ -3,6 +3,7 @@ package pl.edu.pg.eti.kask.forge.user.view;
 import pl.edu.pg.eti.kask.forge.user.model.UsersModel;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,15 +16,18 @@ public class UserList implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final UserService service;
+    private UserService service;
 
     /**
      * Characters list exposed to the view.
      */
     private UsersModel users;
 
-    @Inject
-    public UserList(UserService service) {
+    public UserList() {
+    }
+
+    @EJB
+    public void setService(UserService service){
         this.service = service;
     }
 

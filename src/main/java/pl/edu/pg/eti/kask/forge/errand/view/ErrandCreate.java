@@ -1,7 +1,9 @@
 package pl.edu.pg.eti.kask.forge.errand.view;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.equipment.model.EquipmentModel;
 import pl.edu.pg.eti.kask.forge.equipment.service.EquipmentService;
 import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
@@ -12,6 +14,7 @@ import pl.edu.pg.eti.kask.forge.user.model.UserModel;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -31,9 +34,9 @@ public class ErrandCreate implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final ErrandService errandService;
-    private final EquipmentService equipmentService;
-    private final UserService userService;
+    private ErrandService errandService;
+    private EquipmentService equipmentService;
+    private UserService userService;
 
     /**
      * Character id.
@@ -55,11 +58,19 @@ public class ErrandCreate implements Serializable {
     @Getter
     private List<UserModel> users;
 
-    @Inject
-    public ErrandCreate(ErrandService errandService, EquipmentService equipmentService, UserService userService) {
+    public ErrandCreate(){};
+
+    @EJB
+    public void setErrandService(ErrandService errandService){
         this.errandService = errandService;
-        this.equipmentService = equipmentService;
+    }
+    @EJB
+    public void setUserService(UserService userService){
         this.userService = userService;
+    }
+    @EJB
+    public void setEquipmentService(EquipmentService equipmentService){
+        this.equipmentService = equipmentService;
     }
 
     /**

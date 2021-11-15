@@ -7,10 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Lab1_JEE" />
-        <module name="Lab3_JEE" />
         <module name="simple-rpg-servlet" />
-        <module name="Lab4_JEE" />
         <module name="simple-rpg" />
+        <module name="Lab5_JEE" />
+        <module name="Lab3_JEE" />
+        <module name="Lab4_JEE" />
         <module name="Lab2_JEE" />
       </profile>
     </annotationProcessing>

@@ -1,18 +1,25 @@
+
+// @no-cookie-jar
 GET http://localhost:9080/forge/api/equipments
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 ###
 
-GET http://localhost:9080/forge/api/equipments/7
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/equipments/2
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 
 ###
 
 
+// @no-cookie-jar
 POST http://localhost:9080/forge/api/equipments
 Content-Type: application/json
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 {
   "id": 7,
@@ -25,9 +32,11 @@ Authorization: Basic a2V2aW46dXNlcnVzZXI=
 ###
 
 
+// @no-cookie-jar
 PUT http://localhost:9080/forge/api/equipments/7
 Content-Type: application/json
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 {
   "name": "Trebuchet",
@@ -38,67 +47,72 @@ Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 ###
 
-PUT http://localhost:9080/forge/api/equipments
+
+// @no-cookie-jar
+DELETE http://localhost:9080/forge/api/equipments/7
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+DELETE http://localhost:9080/forge/api/equipments
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/equipments/1/errands
+//Authorization: Basic YWRtaW46YWRtaW4=
+//Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/errands
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/errands/1
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+//Authorization: Basic ZWx2aW46cXdlMTIz
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/equipments/2/errands/7
+Authorization: Basic YWRtaW46YWRtaW4=
+//Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+POST http://localhost:9080/forge/api/equipments/1/errands
 Content-Type: application/json
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 {
-  "equipments": [
-    {
-      "id": 1,
-      "name": "Test",
-      "type": "SIEGE_WEAPON",
-      "mainMaterial": "Steel",
-      "weight": 2231
-    },
-
-    {
-      "id": 2,
-      "name": "Answer",
-      "type": "SIEGE_WEAPON",
-      "mainMaterial": "Bronze",
-      "weight": 123.7
-    },
-
-    {
-      "id": 3,
-      "name": "None",
-      "type": "SIEGE_WEAPON",
-      "mainMaterial": "Amber",
-      "weight": 32.4
-    }
-  ]
+  "id": 1,
+  "price": 100.5,
+  "startDay": "2021-11-15",
+  "details": "It must be shiny"
 }
 
 ###
 
-DELETE http://localhost:9080/forge/api/equipments/7
-
-
-###
-
-DELETE http://localhost:9080/forge/api/equipments
-
-###
-
-GET http://localhost:9080/forge/api/equipments/2/errands
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
-###
-
-GET http://localhost:9080/forge/api/equipments/2/errands/7
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
-
-
-### Test
-
+// @no-cookie-jar
 POST http://localhost:9080/forge/api/equipments/2/errands
 Content-Type: application/json
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
 
 {
   "id": 7,
-  "user": "diana",
   "price": 289.5,
   "startDay": "2021-09-29",
   "details": "New and strong"
@@ -106,23 +120,99 @@ Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 ###
 
+// @no-cookie-jar
 PUT http://localhost:9080/forge/api/equipments/4/errands/7
 Content-Type: application/json
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+//Authorization: Basic ZWx2aW46cXdlMTIz
 
 {
-  "user": "cyryl",
+  "user": "diana",
   "price": 28.5,
   "startDay": "2021-08-29",
   "doneDay": "2022-12-12",
   "details": "Test"
 }
-###
-
-DELETE http://localhost:9080/forge/api/equipments/2/errands/7
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
 
 ###
 
+// @no-cookie-jar
+DELETE http://localhost:9080/forge/api/errands/1
+Authorization: Basic YWRtaW46YWRtaW4=
+//Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+//Authorization: Basic ZWx2aW46cXdlMTIz
+
+###
+
+// @no-cookie-jar
+DELETE http://localhost:9080/forge/api/equipments/1/errands/1
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
 DELETE http://localhost:9080/forge/api/equipments/1/errands
-Authorization: Basic a2V2aW46dXNlcnVzZXI=
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/users/
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/user/
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+GET http://localhost:9080/forge/api/users/agata
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+###
+
+// @no-cookie-jar
+POST http://localhost:9080/forge/api/users/
+Content-Type: application/json
+
+{
+  "login": "agata",
+  "role": "ARCHER",
+  "birthDate": "1999-08-29",
+  "password": "Password"
+}
+
+###
+
+// @no-cookie-jar
+PUT http://localhost:9080/forge/api/users/agata
+Content-Type: application/json
+//Authorization: Basic YWRtaW46YWRtaW4=
+Authorization: Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+
+{
+  "password": "Test"
+}
+
+###
+
+// @no-cookie-jar
+DELETE http://localhost:9080/forge/api/users/agata
+Authorization: Basic YWRtaW46YWRtaW4=
+
+// Admin = Basic YWRtaW46YWRtaW4=
+// Diana = Basic ZGlhbmE6aWxvdmVjYXRzPDM=
+// Agata = Basic YWdhdGE6UGFzc3dvcmQ=
+// Bob   = Basic Ym9iOjEyMzQ1Ng==
+// Alice = Basic YWxpY2U6cGFzc3dvcmQ=
+// Cyryl = Basic Y3lyeWw6KioqKio=
+// Elvin = Basic ZWx2aW46cXdlMTIz

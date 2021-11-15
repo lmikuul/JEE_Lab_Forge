@@ -22,10 +22,6 @@ public class CreateErrandRequest {
      */
     private long id;
     /**
-     * Errand's user
-     */
-    private String user;
-    /**
      * Errand's price
      */
     private double price;
@@ -43,12 +39,10 @@ public class CreateErrandRequest {
     private String details;
 
     public static Function<CreateErrandRequest, Errand> dtoToEntityMapper(
-            Function<String, User> userFunction,
             Supplier<Equipment> equipmentSupplier
     ){
         return request -> Errand.builder()
                 .id(request.getId())
-                .user(userFunction.apply(request.getUser()))
                 .equipment(equipmentSupplier.get())
                 .price(request.getPrice())
                 .startDay(request.getStartDay())

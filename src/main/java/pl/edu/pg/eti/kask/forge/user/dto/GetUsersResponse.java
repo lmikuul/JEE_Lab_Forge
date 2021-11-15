@@ -33,7 +33,7 @@ public class GetUsersResponse {
 
     private String login;
 
-    private Role role;
+    private List<String> roles;
 
     private LocalDate birthDate;
 
@@ -51,7 +51,7 @@ public class GetUsersResponse {
             users.stream()
                     .map(user -> User.builder()
                             .login(user.getLogin())
-                            .role(user.getRole())
+                            .roles(user.getRoles())
                             .birthDate(user.getBirthDate())
                             .build())
                     .forEach(response::user);

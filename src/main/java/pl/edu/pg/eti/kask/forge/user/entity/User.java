@@ -36,7 +36,10 @@ public class User implements Serializable {
     /**
      * User's role in system defining privileges
      */
-    private Role role;
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 
     @ToString.Exclude//It's common to exclude lists from toString
     @EqualsAndHashCode.Exclude

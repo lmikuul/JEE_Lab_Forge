@@ -6,6 +6,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.User;
 import pl.edu.pg.eti.kask.forge.user.model.UserModel;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ public class UserView implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final UserService service;
+    private UserService service;
 
     /**
      * Character id.
@@ -36,11 +37,13 @@ public class UserView implements Serializable {
     @Getter
     private UserModel user;
 
-    @Inject
-    public UserView(UserService service) {
-        this.service = service;
+    public UserView() {
     }
 
+    @EJB
+    public void setService(UserService service){
+        this.service=service;
+    }
     /**
      * In order to prevent calling service on different steps of JSF request lifecycle, model property is cached wihitn
      * field and initialized during init of the view.

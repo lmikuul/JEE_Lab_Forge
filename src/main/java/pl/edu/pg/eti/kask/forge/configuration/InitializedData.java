@@ -10,15 +10,21 @@ import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.context.control.RequestContextController;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import javax.servlet.ServletContextListener;
 import javax.validation.constraints.Null;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Listener started automatically on servlet context initialized. Fetches instance of the datasource from the servlet
@@ -26,87 +32,86 @@ import java.time.LocalDate;
  * in cases of empty database. When using persistence storage application instance should be initialized only during
  * first run in order to init database with starting data. Good place to create first default admin user.
  */
-@ApplicationScoped
+@Singleton
+@Startup
 public class InitializedData {
 
+    private EntityManager em;
+
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
     /**
-     * Service for users operations.
+     * Password hashing algorithm.
      */
-    private final UserService userService;
-    private final EquipmentService equipmentService;
-    private final ErrandService errandService;
-    private RequestContextController requestContextController;
+    private Pbkdf2PasswordHash pbkdf;
 
     @Inject
-    public InitializedData(UserService userService, EquipmentService equipmentService, ErrandService errandService, RequestContextController requestContextController) {
-        this.userService = userService;
-        this.equipmentService = equipmentService;
-        this.errandService = errandService;
-        this.requestContextController = requestContextController;
+    public InitializedData(Pbkdf2PasswordHash pbkdf) {
+        this.pbkdf = pbkdf;
     }
 
-    public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        init();
+    public InitializedData() {
     }
-
 
     /**
      * Initializes database with some example values. Should be called after creating this object. This object should
      * be created only once.
      *
      */
+    @PostConstruct
     private synchronized void init() {
-        requestContextController.activate();
-
         User admin = User.builder()
                 .login("admin")
-                .role(Role.SYSTEM_ADMIN)
-                .password("admin")
+                .roles(List.of(Role.SYSTEM_ADMIN, Role.USER, Role.ARCHER, Role.ENGINEER, Role.FOOTMAN, Role.COMMANDER, Role.KNIGHT))
+                .password(pbkdf.generate("admin".toCharArray()))
                 .birthDate(LocalDate.of(1990, 10, 21))
                 .build();
 
         User alice = User.builder()
                 .login("alice")
-                .role(Role.ARCHER)
+                .roles(List.of(Role.USER, Role.ARCHER))
                 .birthDate(LocalDate.of(2002, 3, 19))
-                .password("password")
+                .password(pbkdf.generate("password".toCharArray()))
                 .build();
 
         User bob = User.builder()
                 .login("bob")
-                .role(Role.COMMANDER)
+                .roles(List.of(Role.USER, Role.COMMANDER))
                 .birthDate(LocalDate.of(1999, 5, 12))
-                .password("123456")
+                .password(pbkdf.generate("123456".toCharArray()))
                 .build();
 
         User cyryl = User.builder()
                 .login("cyryl")
-                .role(Role.ENGINEER)
+                .roles(List.of(Role.USER, Role.ENGINEER))
                 .birthDate(LocalDate.of(1990, 10, 30))
-                .password("*****")
+                .password(pbkdf.generate("*****".toCharArray()))
                 .build();
 
         User diana = User.builder()
                 .login("diana")
-                .role(Role.FOOTMAN)
+                .roles(List.of(Role.USER, Role.FOOTMAN))
                 .birthDate(LocalDate.of(2008, 12, 24))
-                .password("ilovecats<3")
+                .password(pbkdf.generate("ilovecats<3".toCharArray()))
                 .build();
 
 
         User elvin = User.builder()
                 .login("elvin")
-                .role(Role.KNIGHT)
+                .roles(List.of(Role.USER, Role.KNIGHT))
                 .birthDate(LocalDate.of(2001, 1, 16))
-                .password("qwe123")
+                .password(pbkdf.generate("qwe123".toCharArray()))
                 .build();
 
-        userService.create(admin);
-        userService.create(alice);
-        userService.create(bob);
-        userService.create(cyryl);
-        userService.create(diana);
-        userService.create(elvin);
+        em.persist(admin);
+        em.persist(alice);
+        em.persist(bob);
+        em.persist(cyryl);
+        em.persist(diana);
+        em.persist(elvin);
 
         Equipment sword = Equipment.builder()
                 .id(1)
@@ -140,10 +145,10 @@ public class InitializedData {
                 .weight(7.8)
                 .build();
 
-        equipmentService.create(sword);
-        equipmentService.create(bow);
-        equipmentService.create(shield);
-        equipmentService.create(helmet);
+        em.persist(sword);
+        em.persist(bow);
+        em.persist(shield);
+        em.persist(helmet);
 
         Errand errand1 = Errand.builder()
                 .id(1)
@@ -173,11 +178,9 @@ public class InitializedData {
                 .details("With my name on it.")
                 .build();
 
-        errandService.create(errand1);
-        errandService.create(errand2);
-        errandService.create(errand3);
-
-        requestContextController.deactivate();
+        em.persist(errand1);
+        em.persist(errand2);
+        em.persist(errand3);
     }
 
 

@@ -13,6 +13,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.User;
 import pl.edu.pg.eti.kask.forge.user.model.UserEditModel;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class ErrandEdit implements Serializable {
     /**
      * Service for managing characters.
      */
-    private final ErrandService service;
+    private ErrandService service;
 
     /**
      * Character id.
@@ -47,8 +48,11 @@ public class ErrandEdit implements Serializable {
     @Getter
     private ErrandEditModel errand;
 
-    @Inject
-    public ErrandEdit(ErrandService service) {
+    public ErrandEdit() {
+    }
+
+    @EJB
+    public void setService(ErrandService service){
         this.service = service;
     }
 

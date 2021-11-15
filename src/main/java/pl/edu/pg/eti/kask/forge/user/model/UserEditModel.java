@@ -5,6 +5,7 @@ import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -27,7 +28,7 @@ public class UserEditModel {
     /**
      * User's role in system defining privileges
      */
-    private Role role;
+    private List<String> roles;
     /**
      * User's role in system defining privileges
      */
@@ -39,7 +40,7 @@ public class UserEditModel {
         return user -> UserEditModel.builder()
                 .login(user.getLogin())
                 .birthDate(user.getBirthDate())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .avatar("/api/avatars/" + user.getLogin())
                 .build();
     }
@@ -50,7 +51,7 @@ public class UserEditModel {
     public static BiFunction<User, UserEditModel, User> modelToEntityUpdater() {
         return (user, request) -> {
             user.setBirthDate(request.getBirthDate());
-            user.setRole(request.getRole());
+            user.setRoles(request.getRoles());
 
             return user;
         };

@@ -8,8 +8,11 @@ import pl.edu.pg.eti.kask.forge.errand.dto.GetErrandsResponse;
 import pl.edu.pg.eti.kask.forge.errand.dto.UpdateErrandRequest;
 import pl.edu.pg.eti.kask.forge.errand.entity.Errand;
 import pl.edu.pg.eti.kask.forge.errand.service.ErrandService;
+import pl.edu.pg.eti.kask.forge.user.entity.Role;
 import pl.edu.pg.eti.kask.forge.user.service.UserService;
 
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("")
+@RolesAllowed(Role.USER)
 public class ErrandController {
 
     private ErrandService errandService;
@@ -28,17 +32,51 @@ public class ErrandController {
     public ErrandController(){
     }
 
-    @Inject
+    @EJB
     public void setErrandService(ErrandService service){
         this.errandService = service;
     }
 
-    @Inject
+    @EJB
     public void setUserService(UserService service){this.userService = service;}
 
-    @Inject
+    @EJB
     public void setEquipmentService(EquipmentService service){
         this.equipmentService = service;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/errands")
+    public Response getErrands(){
+        List<Errand> errands = errandService.findAll();
+        if(errands.isEmpty()){
+            return Response
+                    .ok(new Object())
+                    .build();
+        }
+        else{
+            return Response
+                    .ok(GetErrandsResponse.entityToDtoMapper().apply(errands))
+                    .build();
+        }
+    }
+
+    @GET
+    @Path("/errands/{errandId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getErrand(@PathParam("errandId") Long errandId){
+        Optional<Errand> errand = errandService.find(errandId);
+        if(errand.isPresent()){
+            return Response
+                    .ok(GetErrandResponse.entityToDtoMapper().apply(errand.get()))
+                    .build();
+        }
+        else {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+        }
     }
 
     @GET
@@ -48,7 +86,7 @@ public class ErrandController {
         Optional<List<Errand>> errands = errandService.findAllForEquipment(eqId);
         if(errands.isEmpty()){
             return Response
-                    .status(Response.Status.NOT_FOUND)
+                    .ok(new Object())
                     .build();
         }
         else{
@@ -80,14 +118,13 @@ public class ErrandController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postErrand(CreateErrandRequest request, @PathParam("eqId") Long eqId){
         Errand errand = CreateErrandRequest
-                .dtoToEntityMapper(login -> userService.find(login).orElse(null),
-                                    () -> equipmentService.find(eqId).orElse(null))
+                .dtoToEntityMapper(() -> equipmentService.find(eqId).orElse(null))
                 .apply(request);
 
-        errandService.create(errand);
+        errandService.createForCallerPrincipal(errand);
         return Response
                 .created(UriBuilder
-                        .fromMethod(ErrandController.class, "getErrand")
+                        .fromPath("/equipments/{eqId}/errands/{errandId}")
                         .build(eqId, errand.getId()))
                 .build();
     }
@@ -134,6 +171,7 @@ public class ErrandController {
 
     @DELETE
     @Path("/equipments/{eqId}/errands")
+    @RolesAllowed(Role.SYSTEM_ADMIN)
     public Response deleteErrands(@PathParam("eqId") Long eqId) {
         errandService.deleteAllForEquipment(eqId);
 
@@ -141,4 +179,34 @@ public class ErrandController {
                 .ok()
                 .build();
     }
+
+    @DELETE
+    @Path("/errands")
+    @RolesAllowed(Role.SYSTEM_ADMIN)
+    public Response deleteErrands() {
+        errandService.deleteAll();
+
+        return Response
+                .ok()
+                .build();
+    }
+
+    @DELETE
+    @Path("/errands/{errandId}")
+    public Response deleteErrand(@PathParam("errandId") Long errandId){
+        Optional<Errand> errand = errandService.find(errandId);
+        if(errand.isPresent()){
+            errandService.delete(errand.get().getId());
+            return Response
+                    .ok()
+                    .build();
+        }
+        else {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+        }
+    }
+
+
 }

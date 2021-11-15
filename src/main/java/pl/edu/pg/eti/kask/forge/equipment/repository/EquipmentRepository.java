@@ -1,11 +1,9 @@
 package pl.edu.pg.eti.kask.forge.equipment.repository;
 
-import pl.edu.pg.eti.kask.forge.datastore.DataStore;
 import pl.edu.pg.eti.kask.forge.equipment.entity.Equipment;
 import pl.edu.pg.eti.kask.forge.repository.Repository;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
